@@ -5,88 +5,103 @@
         static void Main(string[] args)
         {
             Console.WriteLine("Desafio diamante X | Academia de Programação 2024!\n");
+            InicioPrograma(obterValor<int>("Digite um número impar: "));
+        }
 
-            int valorDiamante = obterValor("Digite um número impar: ");
+        static Dinamica obterValor<Dinamica>(string texto)
+        {
+            Console.WriteLine(texto);
+            Console.WriteLine("Para fechar digite ( S / s ).");
+
+            string input = Console.ReadLine();
+
+            try
+            {
+                if (input == "S" || input == "s")
+                {
+                    Environment.Exit(0);
+                }
+                return (Dinamica)Convert.ChangeType(input, typeof(Dinamica));
+            }
+            catch (FormatException)
+            {
+                Console.WriteLine("Tipo não suportado.");
+                return obterValor<Dinamica>(texto);
+            }
+        }
+
+        static void estruturaDiamante(int valorDiamante)
+        {
+            int espacoEmBranco = (valorDiamante - 1) / 2;
+            int XdoDiamante = 1;
+
+            //Topo
+
+            for (int eixoY = 1; espacoEmBranco > 0; eixoY++)
+            {
+                for (int eixoX = 0; eixoX < espacoEmBranco; eixoX++)
+                {
+                    Console.Write(" ");
+                }
+                for (int eixoX = 0; eixoX < XdoDiamante; eixoX++)
+                {
+                    Console.Write("X");
+                }
+                Console.WriteLine("");
+
+                espacoEmBranco--;
+
+                XdoDiamante += 2;
+            }
+
+            //Meio
+
+            for (int eixoX = 0; eixoX < valorDiamante; eixoX++)
+            {
+                Console.Write("X");
+            }
+            Console.WriteLine("");
+
+            //Base
+
+            for (int eixoY = 0; XdoDiamante > 0; eixoY++)
+            {
+                for (int eixoX = -1; eixoX < espacoEmBranco; eixoX++)
+                {
+                    Console.Write(" ");
+                }
+                for (int eixoX = 0; eixoX < XdoDiamante - 2; eixoX++)
+                {
+                    Console.Write("X");
+                }
+                Console.WriteLine("");
+
+                espacoEmBranco++;
+
+                XdoDiamante -= 2;
+            }
+
+            valorDiamante = obterValor<int>("Digite um número impar: ");
+            InicioPrograma(valorDiamante);
+        }
+
+        static void InicioPrograma(int valorDiamante)
+        {
             do
             {
                 if (valorDiamante % 2 == 0)
                 {
 
                     Console.WriteLine("O número deve ser ímpar.");
-                    valorDiamante = obterValor("Digite um número impar: ");
+                    valorDiamante = obterValor<int>("Digite um número impar:");
                 }
                 else
                 {
-                    int espaco = (valorDiamante - 1) / 2;
-                    int letraX = 1;
-                    //Cima
-                    for (int eixoY = 1; espaco > 0; eixoY++)
-                    {
-
-                        for (int i = 0; i < espaco; i++)
-                        {
-                            Console.Write(" ");
-                        }
-
-
-                        for (int i = 0; i < letraX; i++)
-                        {
-                            Console.Write("X");
-
-                        }
-
-
-                        Console.WriteLine("");
-
-                        espaco--;
-                        letraX += 2;
-                    }
-                    //Meio
-                    for (int i = 0; i < valorDiamante; i++)
-                    {
-                        Console.Write("X");
-                    }
-
-                    Console.WriteLine("");
-
-                    //Baixo
-                    for (int eixoY = 0; letraX > 0; eixoY++)
-                    {
-
-                        for (int i = 0; i < espaco; i++)
-                        {
-                            Console.Write(" ");
-                        }
-
-
-                        for (int i = 0; i < letraX; i++)
-                        {
-                            Console.Write("X");
-
-                        }
-
-
-                        Console.WriteLine("");
-
-                        espaco++;
-                        letraX -= 2;
-                    }
-                    Console.WriteLine("");
-                    valorDiamante = obterValor("Digite um número impar: ");
-
+                    estruturaDiamante(valorDiamante);
+                    break;
                 }
-            } while (valorDiamante % 3 != 1);
-
-
-
-            static int obterValor(string texto)
-            {
-                Console.WriteLine(texto);
-
-                int input = Convert.ToInt32(Console.ReadLine());
-
-                return input;
-            }
+            } while (valorDiamante % 2 == 0 || valorDiamante % 3 != 1 || valorDiamante == 0);
         }
+
     }
 }
